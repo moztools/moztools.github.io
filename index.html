@@ -325,6 +325,23 @@ MozTools supports <strong>Word to PDF</strong>, <strong>Excel to PDF</strong>, <
 </div>
 </section>
 
+<section class="features" style="background: white; padding: 30px; border-radius: 18px; border: 1px solid #e5eaf0; margin-top: 30px; margin-bottom: 30px;">
+<h2 style="text-align: left; margin-bottom: 15px;">Why File Conversion Matters</h2>
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">In today’s digital world, we deal with dozens of different file formats every single day. From Microsoft Word documents and Excel spreadsheets to image files and PDFs, the sheer variety of formats can be overwhelming. This is where file conversion becomes absolutely essential. File conversion is the process of taking a document, presentation, or image and translating it into a different format so that it can be opened, viewed, or edited by different software.</p>
+
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">At MozTools, we believe that converting files should be fast, free, and accessible to everyone without the need to download heavy software or create an account. Whether you are a student submitting an assignment, a professional sending a business proposal, or someone just trying to organize their digital photos, our suite of tools is designed to make your life easier.</p>
+
+<h3 style="font-size: 16px; margin: 20px 0 10px; color: #15243b;">Understanding the Formats</h3>
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">Different formats serve different purposes. For example, Microsoft Word (DOCX) is designed for editing text. It allows you to change fonts, adjust margins, and track changes. However, if you send a DOCX file to someone who does not have Microsoft Word, the formatting might break completely. That is why converting to PDF (Portable Document Format) is so important. A PDF locks your document in place, ensuring it looks exactly the same on a phone, a tablet, or a computer, no matter what software the recipient uses.</p>
+
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">Similarly, spreadsheets created in Excel (XLSX) are fantastic for calculations and data analysis. But when it comes time to share a financial report with a client, an Excel to PDF conversion is the most professional choice. It prevents the recipient from accidentally altering your formulas or data.</p>
+
+<h3 style="font-size: 16px; margin: 20px 0 10px; color: #15243b;">The Power of PDFs</h3>
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">PDFs are the universal standard for sharing documents. But what if you receive a PDF and need to edit the text inside it? That is where our PDF to Word (DOCX) tool comes in. By using advanced extraction technology, we can help you convert text-based PDFs back into editable Word documents. While our free engine has a limit of 2 pages / 3 MB for this specific feature to ensure server stability, it is a powerful tool for recovering text quickly.</p>
+
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">We also offer a Merge PDF tool, which is incredibly useful for combining multiple documents into one organized file. If you have a separate cover letter, resume, and portfolio, merging them into a single PDF ensures the recruiter reads everything in the exact order you intended.</p>
+</section>
+
 <footer class="footer">
 <a href="index.html">Home</a>
 <a href="guides.html">Guides</a>
@@ -471,4 +488,114 @@ function resetAll(){
 
 function selectFiles(files){
   const conv = currentConversion();
-  if(!conv){ showStatus("Please choose a conversion 
+  if(!conv){ showStatus("Please choose a conversion first.", "error"); return; }
+
+  const validFiles = [];
+  for(const file of files){
+    const ext = getExtension(file.name);
+    const ok = conv.from === "img" ? ["jpg","jpeg","png"].includes(ext) : (ext === conv.from);
+    if(!ok){
+      showStatus(`The file ${file.name} does not match the chosen conversion.`, "error");
+      return;
+    }
+    validFiles.push(file);
+  }
+
+  if(conv.type === "multi" && conv.from === "pdf" && validFiles.length < 2){
+    showStatus("Merging requires at least 2 PDF files.", "error"); return;
+  }
+
+  selectedFiles = validFiles;
+  clearStatus(); clearDownload();
+
+  fileName.textContent = selectedFiles.map(f => f.name).join(", ");
+  const totalBytes = selectedFiles.reduce((sum, f) => sum + f.size, 0);
+  fileMeta.textContent = formatBytes(totalBytes) + " total · " + selectedFiles.length + " file(s)";
+  
+  fileDetails.style.display = "flex";
+  fileLabel.style.display = "block";
+  progressArea.style.display = "none";
+  progressFill.style.width = "0%";
+  updateConvertButtonState();
+}
+
+function updateProgress(value, message){
+  progressArea.style.display = "block";
+  progressFill.style.width = value + "%";
+  progressLabel.textContent = message;
+}
+
+async function startConversion(){
+  const conv = currentConversion();
+  if(!conv || selectedFiles.length === 0){
+    showStatus("Please select a conversion and file(s) first.", "error"); return;
+  }
+
+  convertButton.disabled = true;
+  convertButton.textContent = "Processing...";
+  clearStatus(); clearDownload();
+  updateProgress(10, "Uploading your file(s)... This may take up to 60s if asleep.");
+
+  try{
+    const form = new FormData();
+    if(conv.type === "multi"){
+      selectedFiles.forEach(f => form.append("files", f));
+    } else {
+      form.append("file", selectedFiles[0]);
+      form.append("output_format", conv.to);
+    }
+
+    let response;
+    try{
+      response = await fetch(conv.endpoint, { method: "POST", body: form });
+    }catch(e){
+      throw new Error("Could not connect to the conversion server. Check your internet.");
+    }
+
+    if(!response.ok){
+      let message = "Conversion failed.";
+      const type = response.headers.get("content-type") || "";
+      if(type.includes("application/json")){
+        try{
+          const data = await response.json();
+          if(data && typeof data.detail === "string") message = data.detail;
+          else if(data && data.detail) message = JSON.stringify(data.detail);
+        }catch(_){ }
+      }
+      if(response.status === 413) throw new Error(message);
+      if(response.status >= 500) throw new Error("Server problem. Try again in a minute. " + message);
+      throw new Error(message);
+    }
+
+    updateProgress(70, "Downloading the converted file...");
+    const blob = await response.blob();
+    if(!blob.size) throw new Error("The converted file is empty.");
+
+    downloadObjectUrl = URL.createObjectURL(blob);
+    const originalName = selectedFiles[0].name.replace(/\.[^/.]+$/, "");
+    const extension = conv.to === "jpeg" ? "jpg" : conv.to;
+
+    downloadButton.href = downloadObjectUrl;
+    downloadButton.download = (conv.type === "multi" ? "moztools-result" : originalName) + "." + extension;
+    downloadButton.style.display = "block";
+    updateProgress(100, "Conversion completed!");
+    showStatus("Your file was converted successfully. Click the green button to download.", "success");
+
+  }catch(error){
+    console.error("MozTools error:", error);
+    showStatus(error.message, "error");
+    updateProgress(0, "Conversion stopped.");
+  }finally{
+    convertButton.disabled = false;
+    convertButton.textContent = "Convert File";
+    updateConvertButtonState();
+  }
+}
+
+convertButton.addEventListener("click", startConversion);
+setDropZoneEnabled(false);
+updateConvertButtonState();
+</script>
+
+</body>
+</html>
