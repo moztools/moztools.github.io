@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="MozTools Guides - Learn how to manage, convert, and optimize your documents and images.">
-<title>Guides & Articles - MozTools</title>
+<meta name="description" content="MozTools - Free online file converter. Convert PDF, images and documents online.">
+<title>MozTools - Free Online File Converter</title>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6101375220899594" crossorigin="anonymous"></script>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033;line-height:1.6}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033}
 button,input,select{font:inherit}
 .navbar{background:#fff;padding:17px 6%;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 12px #0000000b}
 .logo{font-size:25px;font-weight:800;color:#15243b;text-decoration:none}
@@ -19,21 +19,94 @@ button,input,select{font:inherit}
 .hero{background:linear-gradient(135deg,#10294c,#1767bb);color:white;text-align:center;padding:48px 18px 65px}
 .hero h1{font-size:35px;margin:0 0 12px}
 .hero p{color:#e0ecff;font-size:15px;line-height:1.6;margin:0 auto;max-width:620px}
-.main-content{max-width:800px;margin:-30px auto 40px;padding:0 16px;position:relative}
-.article-card{background:white;border-radius:18px;padding:35px;box-shadow:0 10px 35px #10294c18;border:1px solid #e5eaf0;margin-bottom:30px}
-.article-card h2{font-size:24px;margin:0 0 10px;color:#15243b}
-.article-meta{font-size:13px;color:#64748b;margin-bottom:20px;display:block;border-bottom:1px solid #e2e8f0;padding-bottom:10px}
-.article-card p{margin-bottom:15px;font-size:15px;color:#334155}
-.article-card h3{font-size:18px;margin:25px 0 10px;color:#15243b}
-.article-card ul, .article-card ol{margin-bottom:15px;padding-left:20px;font-size:15px;color:#334155}
-.article-card li{margin-bottom:8px}
-.footer{text-align:center;background:white;border-top:1px solid #e2e8f0;padding:28px 15px;color:#64748b;font-size:13px;line-height:2;margin-top:40px}
+.main{max-width:850px;margin:-30px auto 40px;padding:0 16px;position:relative}
+.converter{background:white;border-radius:18px;padding:28px;box-shadow:0 10px 35px #10294c18;border:1px solid #e5eaf0}
+.converter h2{font-size:21px;margin:0 0 7px}
+.subtitle{font-size:13px;color:#64748b;margin:0 0 22px}
+.conv-area{margin-bottom:18px}
+.conv-area label{font-size:13px;font-weight:700;display:block;margin-bottom:8px}
+.conv-area select{width:100%;padding:14px;border:1px solid #cbd5e1;border-radius:9px;background:white;color:#172033}
+.conv-area select:disabled{background:#f1f5f9;color:#94a3b8;cursor:not-allowed}
+.dropzone{border:2px dashed #b8c9dd;border-radius:14px;background:#f8fbff;padding:42px 15px;text-align:center;cursor:pointer;transition:.2s}
+.dropzone:hover,.dropzone.dragover{border-color:#1674e8;background:#eff6ff}
+.dropzone.disabled{border-color:#dbe3ec;background:#f6f8fb;cursor:not-allowed;opacity:.85}
+.dropzone.disabled:hover{border-color:#dbe3ec;background:#f6f8fb}
+.upload-icon{font-size:43px;margin-bottom:10px}
+.dropzone strong{display:block;color:#1767bb;font-size:16px}
+.dropzone.disabled strong{color:#94a3b8}
+.dropzone p{font-size:13px;color:#64748b;margin:8px 0 0}
+#fileInput{display:none}
+.file-label{display:none;font-size:12px;color:#64748b;font-weight:700;margin:16px 0 6px;letter-spacing:.3px;text-transform:uppercase}
+.file-details{display:none;padding:15px;background:#f1f6fc;border-radius:11px;align-items:center;gap:12px}
+.file-icon{font-size:30px}
+.file-text{min-width:0;flex:1}
+.file-text strong{display:block;font-size:14px;overflow-wrap:anywhere}
+.file-text small{color:#64748b;font-size:12px}
+.remove-file{border:0;background:#fee2e2;color:#b91c1c;border-radius:8px;padding:8px 11px;cursor:pointer}
+.button{width:100%;border:0;border-radius:9px;padding:15px;font-weight:700;cursor:pointer;font-size:15px}
+.convert-button{background:#1674e8;color:white;margin-top:20px}
+.convert-button:hover{background:#0d5fc2}
+.convert-button:disabled{opacity:.55;cursor:not-allowed}
+.reset-button{background:#eef2f7;color:#334155;margin-top:10px}
+.progress-area{display:none;margin-top:20px}
+.progress-label{font-size:13px;color:#475569;margin-bottom:8px}
+.progress-track{height:10px;background:#e2e8f0;border-radius:20px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:#10b981;transition:width .4s}
+.status{display:none;margin-top:17px;padding:13px;border-radius:9px;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.status.error{display:block;background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+.status.success{display:block;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.download-button{display:none;margin-top:17px;background:#10b981;color:white;text-decoration:none;text-align:center;padding:15px;border-radius:9px;font-weight:700}
+.download-button:hover{background:#059669}
+.note{font-size:12px;color:#64748b;line-height:1.6;margin-top:18px}
+
+/* --- new section: supported hint --- */
+.supported-hint{max-width:850px;margin:0 auto 8px;padding:0 18px;text-align:center;font-size:13px;color:#475569;line-height:1.6}
+.supported-hint strong{color:#1674e8}
+
+/* --- new section: convert cards --- */
+.convert-cards{max-width:1000px;margin:45px auto 0;padding:0 18px}
+.convert-cards h2{text-align:center;font-size:23px}
+.convert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px;margin-top:22px}
+.convert-card{background:white;border:1px solid #e5eaf0;border-radius:12px;padding:20px}
+.convert-card.muted{background:#f8fafc;border-style:dashed;color:#64748b}
+.convert-card .card-icon{font-size:27px}
+.convert-card h3{font-size:15px;margin:10px 0 6px}
+.convert-card p{font-size:13px;color:#64748b;line-height:1.6;margin:0}
+
+/* --- new section: how it works --- */
+.how-steps{max-width:1000px;margin:45px auto 0;padding:0 18px}
+.how-steps h2{text-align:center;font-size:23px}
+.step-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px;margin-top:22px}
+.step-card{background:white;border:1px solid #e5eaf0;border-radius:12px;padding:20px;text-align:center}
+.step-number{display:inline-block;width:34px;height:34px;line-height:34px;border-radius:50%;background:#1674e8;color:white;font-weight:800;font-size:15px;margin-bottom:8px}
+.step-card h3{font-size:15px;margin:4px 0 6px}
+.step-card p{font-size:13px;color:#64748b;line-height:1.6;margin:0}
+
+/* --- new section: FAQ --- */
+.faq{max-width:850px;margin:45px auto 0;padding:0 18px}
+.faq h2{text-align:center;font-size:23px;margin-bottom:22px}
+.faq-item{background:white;border:1px solid #e5eaf0;border-radius:12px;padding:0;margin-bottom:10px;overflow:hidden}
+.faq-item summary{cursor:pointer;padding:16px 18px;font-size:14px;font-weight:700;color:#172033;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";color:#1674e8;font-weight:800;font-size:18px}
+.faq-item[open] summary::after{content:"−"}
+.faq-item p{margin:0;padding:0 18px 16px;font-size:13px;color:#475569;line-height:1.7}
+
+.features{max-width:1000px;margin:45px auto;padding:0 18px}
+.features h2{text-align:center;font-size:23px}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px;margin-top:22px}
+.feature{background:white;border:1px solid #e5eaf0;border-radius:12px;padding:20px}
+.feature-icon{font-size:27px}
+.feature h3{font-size:15px;margin:10px 0 6px}
+.feature p{font-size:13px;color:#64748b;line-height:1.6;margin:0}
+.footer{text-align:center;background:white;border-top:1px solid #e2e8f0;padding:28px 15px;color:#64748b;font-size:13px;line-height:2}
 .footer a{color:#1674e8;text-decoration:none;margin:0 8px;font-weight:600}
 @media(max-width:600px){
 .navbar{padding:14px 17px}
 .hero{padding:40px 17px 55px}
 .hero h1{font-size:28px}
-.article-card{padding:20px}
+.converter{padding:19px}
+.dropzone{padding:32px 12px}
 .nav-links a{margin-left:12px;font-size:12px}
 }
 </style>
@@ -44,97 +117,230 @@ button,input,select{font:inherit}
 <header class="navbar">
 <a class="logo" href="index.html">Moz<span>Tools</span></a>
 <nav class="nav-links">
-<a href="index.html">Converter</a>
+<a href="#converter">File Converter</a>
 <a href="guides.html">Guides</a>
+<a href="#about">About</a>
 </nav>
 </header>
 
 <section class="hero">
-<h1>MozTools Guides</h1>
-<p>Learn how to manage, convert, and optimize your documents and images for work, school, and everyday life.</p>
+<h1>Free Online File Converter</h1>
+<p>Upload your file, choose an output format and convert it online. Simple, fast and free with MozTools.</p>
 </section>
 
-<main class="main-content">
+<main class="main" id="converter">
+<section class="converter">
 
-<!-- Article 1 -->
-<article class="article-card">
-<h2>Why Converting Word to PDF is Essential for Professional Job Applications</h2>
-<span class="article-meta">Published by MozTools Team • 4 min read</span>
+<h2>Convert Your Files</h2>
+<p class="subtitle">Choose a conversion, then upload the matching file.</p>
 
-<p>When you are applying for a job, your resume and cover letter are your first impression. You spend hours perfecting the wording, aligning the margins, and choosing the right font. But if you send your resume as a Microsoft Word document (DOCX), there is a high chance the recruiter will not see the document the way you intended.</p>
+<div class="conv-area">
+<label for="conversionSelect">What do you want to convert?</label>
+<select id="conversionSelect">
+<option value="">Choose a conversion</option>
+<option value="docx->pdf">Word (DOCX) → PDF</option>
+<option value="pdf->docx">PDF → Word (DOCX) — max 2 pages / 3 MB</option>
+<option value="xlsx->pdf">Excel (XLSX) → PDF</option>
+<option value="pptx->pdf">PowerPoint (PPTX) → PDF</option>
+<option value="jpg->pdf">JPG / PNG → PDF</option>
+<option value="merge-pdf">Merge PDFs (up to 5 files)</option>
+</select>
+</div>
 
-<p>This is why converting your Word documents to PDF (Portable Document Format) before submitting them is one of the most important steps in the job application process.</p>
+<div class="dropzone disabled" id="dropZone">
+<div class="upload-icon">☁️</div>
+<strong id="dropZoneTitle">Please choose a conversion first</strong>
+<p id="dropZoneHint">The upload box becomes active after you pick a conversion above.</p>
+</div>
 
-<h3>1. Preserve Your Formatting Across All Devices</h3>
-<p>Word documents are designed to be editable. This means that if you created your resume on a Mac using a specific font, and the recruiter opens it on a Windows PC that does not have that font installed, the text will shift. A two-page resume might suddenly become three pages. Margins could collapse, and bullet points might misalign.</p>
+<input type="file" id="fileInput" multiple>
 
-<p>PDFs, on the other hand, are "locked." When you convert a Word document to PDF, the layout, fonts, and images are embedded into a single file. It will look identical on a massive desktop monitor, a small laptop, an iPhone, or when printed on paper.</p>
+<div class="file-label" id="fileLabel">Current file(s) uploaded</div>
 
-<h3>2. Bypass Applicant Tracking Systems (ATS)</h3>
-<p>Most large companies use software called an Applicant Tracking System (ATS) to scan resumes before a human ever sees them. While many modern ATS systems can read DOCX files, some older systems struggle with them, especially if the document contains complex tables, text boxes, or graphics. </p>
+<div class="file-details" id="fileDetails">
+<div class="file-icon">📄</div>
+<div class="file-text">
+<strong id="fileName"></strong>
+<small id="fileMeta"></small>
+</div>
+<button class="remove-file" id="removeFile" type="button">✕</button>
+</div>
 
-<p>A PDF is universally recognized by these systems. By using a free Word to PDF converter, you ensure that the software can properly extract your contact information, keywords, and work history without any errors.</p>
+<button class="button convert-button" id="convertButton" type="button" disabled>
+Convert File
+</button>
 
-<h3>3. Professionalism and Security</h3>
-<p>Sending a DOCX file can sometimes make you look less professional. It implies that you expect the recipient to have the software to open it. A PDF looks final and polished. Furthermore, PDFs offer better security. It is much harder for someone to accidentally delete a paragraph or change a date in a PDF than it is in a Word document.</p>
+<button class="button reset-button" id="resetButton" type="button">
+Start Again
+</button>
 
-<p><strong>How to do it with MozTools:</strong> MozTools makes it incredibly easy. Just choose "Word (DOCX) → PDF" from our converter dropdown, upload your resume, and download the finished PDF instantly. It is completely free, requires no software installation, and works perfectly on mobile devices.</p>
-</article>
+<div class="progress-area" id="progressArea">
+<div class="progress-label" id="progressLabel">Preparing your file...</div>
+<div class="progress-track">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+</div>
 
-<!-- Article 2 -->
-<article class="article-card">
-<h2>How to Combine Multiple PDFs for School or Work Projects</h2>
-<span class="article-meta">Published by MozTools Team • 5 min read</span>
+<div class="status" id="statusMessage" role="status"></div>
 
-<p>We have all been there: you are submitting a final project for a class, or sending a report to a client, and you have multiple files. You have the main document, a separate spreadsheet, a few scanned receipts, and maybe a signed cover sheet. Sending five separate files is a nightmare for the recipient, and some email systems will even block them due to size limits.</p>
+<a class="download-button" id="downloadButton" href="#" download>
+⬇ Download Converted File
+</a>
 
-<p>The solution is to merge multiple PDFs into a single, organized document. Combining files not only looks more professional, but it also ensures that the recipient reads everything in the exact order you intended.</p>
+<p class="note">
+MozTools supports <strong>Word to PDF</strong>, <strong>Excel to PDF</strong>, <strong>PowerPoint to PDF</strong>, <strong>JPG to PDF</strong>, <strong>Merge PDFs</strong>, and <strong>PDF to Word</strong> (up to 2 pages / 3 MB on the free plan). More formats coming soon.
+</p>
 
-<h3>Why Merging PDFs is Better Than Other Formats</h3>
-<p>You might be tempted to copy and paste everything into one giant Word document. While this works for text, it is a disaster for formatting. Images get moved, tables break, and scanned documents lose their quality when inserted into Word. </p>
-
-<p>By merging the PDFs directly, you are essentially putting the pages together exactly as they were originally created. The formatting, resolution, and layout of each original file remain 100% untouched.</p>
-
-<h3>Common Use Cases for Merging PDFs</h3>
-<ul>
-<li><strong>University Applications:</strong> Many universities require you to submit your transcripts, letters of recommendation, and personal statement as one single PDF.</li>
-<li><strong>Business Proposals:</strong> Combine your contract, pricing sheet, and company portfolio into one clean pitch deck.</li>
-<li><strong>Accounting:</strong> Merge monthly invoices or expense receipts into a single PDF for easier record-keeping.</li>
-<li><strong>Real Estate:</strong> Combine a rental application, proof of income, and ID scans into a single tenant packet.</li>
-</ul>
-
-<h3>How to Merge PDFs Safely and for Free</h3>
-<p>Many online tools charge a premium for merging files, or they limit you to just two files. MozTools offers a completely free way to combine up to 5 PDFs at once. Because our tool runs on our own servers, your files are processed quickly and deleted immediately after you download the result.</p>
-
-<p><strong>How to do it with MozTools:</strong> Select "Merge PDFs" from the menu, select the files from your device (you can select multiple at once), and click Convert. Our tool will stitch them together in the order you uploaded them, giving you one perfect document ready to submit.</p>
-</article>
-
-<!-- Article 3 -->
-<article class="article-card">
-<h2>JPG vs. PNG: Choosing the Right Image Format for Your Needs</h2>
-<span class="article-meta">Published by MozTools Team • 5 min read</span>
-
-<p>Whether you are building a website, designing a presentation, or just trying to send a photo to a friend, the image format you choose matters. The two most common image formats on the internet are JPG (also written as JPEG) and PNG. </p>
-
-<p>While they might look similar on your screen, they are built on completely different technology. Understanding the difference between them will help you save storage space, maintain image quality, and avoid ugly backgrounds.</p>
-
-<h3>What is a JPG?</h3>
-<p>JPG stands for Joint Photographic Experts Group. It was designed specifically for photographs. The biggest feature of a JPG is <strong>lossy compression</strong>. This means it shrinks the file size by permanently throwing away some of the image data. Most of the time, your eyes cannot tell the difference, but it drastically reduces the file size.</p>
-<p><strong>When to use JPG:</strong> Use JPG for complex images with lots of colors and gradients, like family photos, landscapes, or professional photography. It is also the best choice if you need to send images via email or use them on a website where loading speed is important.</p>
-
-<h3>What is a PNG?</h3>
-<p>PNG stands for Portable Network Graphics. It uses <strong>lossless compression</strong>. This means it compresses the file size without losing any image quality whatsoever. However, because it keeps all the data, PNG files are usually much larger than JPGs. </p>
-<p>The superpower of a PNG is <strong>transparency</strong>. A PNG can have a transparent background, which means it can be placed over other images or colored backgrounds without a white box around it.</p>
-<p><strong>When to use PNG:</strong> Use PNG for images that have text, sharp lines, or need a transparent background. It is perfect for logos, icons, charts, and screenshots.</p>
-
-<h3>Why Convert Images to PDF?</h3>
-<p>Sometimes, you do not want to send an image at all—you want to send a document. If you have a collection of photos (like a portfolio, ID documents, or scanned pages), combining them into a single PDF is the most professional way to share them.</p>
-<p>PDFs ensure the images cannot be easily altered, and they keep the pages in the exact order you choose. It is the standard format for business and academic submissions.</p>
-
-<p><strong>How to do it with MozTools:</strong> If you have JPGs, PNGs, or a mix of both, you can use our "JPG / PNG → PDF" tool. You can upload up to 5 images at a time, and our engine will instantly combine them into a single, clean PDF document that is ready to print or share.</p>
-</article>
-
+</section>
 </main>
+
+<p class="supported-hint"><strong>Supported now:</strong> DOCX, XLSX, PPTX, JPG, PNG to PDF · Merge PDFs · PDF to DOCX (max 2 pages)</p>
+
+<section class="convert-cards">
+<h2>What can MozTools convert?</h2>
+<div class="convert-grid">
+
+<div class="convert-card">
+<div class="card-icon">📄</div>
+<h3>Word (DOCX) → PDF</h3>
+<p>Unlimited pages. Free. Runs on LibreOffice.</p>
+</div>
+
+<div class="convert-card">
+<div class="card-icon">📊</div>
+<h3>Excel (XLSX) → PDF</h3>
+<p>Convert spreadsheets to PDF. Unlimited size.</p>
+</div>
+
+<div class="convert-card">
+<div class="card-icon">📽️</div>
+<h3>PowerPoint (PPTX) → PDF</h3>
+<p>Convert presentations to PDF. Unlimited size.</p>
+</div>
+
+<div class="convert-card">
+<div class="card-icon">🖼️</div>
+<h3>JPG / PNG → PDF</h3>
+<p>Turn images into a single PDF document.</p>
+</div>
+
+<div class="convert-card">
+<div class="card-icon">🧩</div>
+<h3>Merge PDFs</h3>
+<p>Combine up to 5 PDFs into one file.</p>
+</div>
+
+<div class="convert-card">
+<div class="card-icon">📝</div>
+<h3>PDF → Word (DOCX)</h3>
+<p>Up to 2 pages / 3 MB on the free plan. Text-based PDFs.</p>
+</div>
+
+</div>
+</section>
+
+<section class="how-steps">
+<h2>How it works</h2>
+<div class="step-grid">
+
+<div class="step-card">
+<div class="step-number">1</div>
+<h3>Choose a conversion</h3>
+<p>Pick the direction you need from the dropdown above.</p>
+</div>
+
+<div class="step-card">
+<div class="step-number">2</div>
+<h3>Upload your file</h3>
+<p>Drag and drop, or click to browse.</p>
+</div>
+
+<div class="step-card">
+<div class="step-number">3</div>
+<h3>Download the result</h3>
+<p>Your converted file downloads automatically.</p>
+</div>
+
+</div>
+</section>
+
+<section class="faq">
+<h2>Frequently asked questions</h2>
+
+<details class="faq-item">
+<summary>Is MozTools free?</summary>
+<p>Yes. The free plan has honest limits: PDF → Word supports up to 2 pages / 3 MB, and the first request after inactivity may take up to 60 seconds while the server wakes up.</p>
+</details>
+
+<details class="faq-item">
+<summary>Why is PDF → Word limited to 2 pages?</summary>
+<p>The conversion runs on free hosting with limited memory. Larger PDFs are refused with a clear message instead of crashing the server, so every visitor sees predictable behaviour.</p>
+</details>
+
+<details class="faq-item">
+<summary>What is a text-based PDF?</summary>
+<p>One where you can click and drag to highlight the text. Scanned PDFs (photos of printed pages) may not convert well and would need OCR, which is not part of the free engine.</p>
+</details>
+
+<details class="faq-item">
+<summary>Will my file be stored?</summary>
+<p>No. Files are deleted from the server immediately after the converted file is returned to you.</p>
+</details>
+
+<details class="faq-item">
+<summary>Why does the first conversion take longer?</summary>
+<p>The free server sleeps after inactivity and takes up to 60 seconds to wake up. Later conversions on the same visit are fast.</p>
+</details>
+
+</section>
+
+<section class="features" id="about">
+<h2>Why Use MozTools?</h2>
+<div class="feature-grid">
+
+<div class="feature">
+<div class="feature-icon">⚡</div>
+<h3>Simple and Fast</h3>
+<p>Upload your file and convert it with a few simple steps.</p>
+</div>
+
+<div class="feature">
+<div class="feature-icon">📁</div>
+<h3>Multiple Formats</h3>
+<p>Choose from the output formats available for your uploaded file.</p>
+</div>
+
+<div class="feature">
+<div class="feature-icon">📱</div>
+<h3>Works Everywhere</h3>
+<p>Use MozTools on your mobile phone, tablet or computer.</p>
+</div>
+
+<div class="feature">
+<div class="feature-icon">🆓</div>
+<h3>Free to Use</h3>
+<p>Convert files online without installing conversion software.</p>
+</div>
+
+</div>
+</section>
+
+<section class="features" style="background: white; padding: 30px; border-radius: 18px; border: 1px solid #e5eaf0; margin-top: 30px; margin-bottom: 30px;">
+<h2 style="text-align: left; margin-bottom: 15px;">Why File Conversion Matters</h2>
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">In today’s digital world, we deal with dozens of different file formats every single day. From Microsoft Word documents and Excel spreadsheets to image files and PDFs, the sheer variety of formats can be overwhelming. This is where file conversion becomes absolutely essential. File conversion is the process of taking a document, presentation, or image and translating it into a different format so that it can be opened, viewed, or edited by different software.</p>
+
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">At MozTools, we believe that converting files should be fast, free, and accessible to everyone without the need to download heavy software or create an account. Whether you are a student submitting an assignment, a professional sending a business proposal, or someone just trying to organize their digital photos, our suite of tools is designed to make your life easier.</p>
+
+<h3 style="font-size: 16px; margin: 20px 0 10px; color: #15243b;">Understanding the Formats</h3>
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">Different formats serve different purposes. For example, Microsoft Word (DOCX) is designed for editing text. It allows you to change fonts, adjust margins, and track changes. However, if you send a DOCX file to someone who does not have Microsoft Word, the formatting might break completely. That is why converting to PDF (Portable Document Format) is so important. A PDF locks your document in place, ensuring it looks exactly the same on a phone, a tablet, or a computer, no matter what software the recipient uses.</p>
+
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">Similarly, spreadsheets created in Excel (XLSX) are fantastic for calculations and data analysis. But when it comes time to share a financial report with a client, an Excel to PDF conversion is the most professional choice. It prevents the recipient from accidentally altering your formulas or data.</p>
+
+<h3 style="font-size: 16px; margin: 20px 0 10px; color: #15243b;">The Power of PDFs</h3>
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">PDFs are the universal standard for sharing documents. But what if you receive a PDF and need to edit the text inside it? That is where our PDF to Word (DOCX) tool comes in. By using advanced extraction technology, we can help you convert text-based PDFs back into editable Word documents. While our free engine has a limit of 2 pages / 3 MB for this specific feature to ensure server stability, it is a powerful tool for recovering text quickly.</p>
+
+<p style="font-size: 14px; color: #475569; line-height: 1.8; margin-bottom: 15px;">We also offer a Merge PDF tool, which is incredibly useful for combining multiple documents into one organized file. If you have a separate cover letter, resume, and portfolio, merging them into a single PDF ensures the recruiter reads everything in the exact order you intended.</p>
+</section>
 
 <footer class="footer">
 <a href="index.html">Home</a>
@@ -146,6 +352,250 @@ button,input,select{font:inherit}
 <br>
 &copy; 2026 MozTools. All rights reserved.
 </footer>
+
+<script>
+const ENGINE_URL = "https://moztools-own-engine.onrender.com";
+const CONVERT_ENDPOINT = ENGINE_URL + "/convert";
+const IMAGE_ENDPOINT = ENGINE_URL + "/convert-image";
+const MERGE_ENDPOINT = ENGINE_URL + "/merge-pdf";
+
+const CONVERSIONS = {
+  "docx->pdf":  { from: "docx", to: "pdf",  type: "single",  endpoint: CONVERT_ENDPOINT, uploadTitle: "Now upload your DOCX file",  uploadHint: "DOCX → PDF runs on LibreOffice. No page limit." },
+  "pdf->docx":  { from: "pdf",  to: "docx", type: "single",  endpoint: CONVERT_ENDPOINT, uploadTitle: "Now upload your PDF file",   uploadHint: "PDF → DOCX works for text-based PDFs up to 2 pages / 3 MB." },
+  "xlsx->pdf":  { from: "xlsx", to: "pdf",  type: "single",  endpoint: CONVERT_ENDPOINT, uploadTitle: "Now upload your XLSX file",  uploadHint: "Excel → PDF runs on LibreOffice. No page limit." },
+  "pptx->pdf":  { from: "pptx", to: "pdf",  type: "single",  endpoint: CONVERT_ENDPOINT, uploadTitle: "Now upload your PPTX file",  uploadHint: "PowerPoint → PDF runs on LibreOffice. No page limit." },
+  "jpg->pdf":   { from: "img",  to: "pdf",  type: "multi",   endpoint: IMAGE_ENDPOINT,   uploadTitle: "Now upload your images",  uploadHint: "Select up to 5 JPG or PNG images to combine into one PDF." },
+  "merge-pdf":  { from: "pdf",  to: "pdf",  type: "multi",   endpoint: MERGE_ENDPOINT,   uploadTitle: "Now upload your PDFs",    uploadHint: "Select 2 to 5 PDF files to merge them into one." }
+};
+
+let selectedFiles = [];
+let downloadObjectUrl = null;
+
+const conversionSelect = document.getElementById("conversionSelect");
+const dropZone = document.getElementById("dropZone");
+const dropZoneTitle = document.getElementById("dropZoneTitle");
+const dropZoneHint = document.getElementById("dropZoneHint");
+const fileInput = document.getElementById("fileInput");
+const fileLabel = document.getElementById("fileLabel");
+const fileDetails = document.getElementById("fileDetails");
+const fileName = document.getElementById("fileName");
+const fileMeta = document.getElementById("fileMeta");
+const convertButton = document.getElementById("convertButton");
+const progressArea = document.getElementById("progressArea");
+const progressFill = document.getElementById("progressFill");
+const progressLabel = document.getElementById("progressLabel");
+const statusMessage = document.getElementById("statusMessage");
+const downloadButton = document.getElementById("downloadButton");
+
+function showStatus(message, type){
+  statusMessage.textContent = message;
+  statusMessage.className = "status " + type;
+}
+function clearStatus(){ statusMessage.textContent = ""; statusMessage.className = "status"; }
+function clearDownload(){
+  if(downloadObjectUrl){ URL.revokeObjectURL(downloadObjectUrl); downloadObjectUrl = null; }
+  downloadButton.style.display = "none";
+  downloadButton.removeAttribute("href");
+}
+function formatBytes(bytes){
+  if(bytes < 1024) return bytes + " bytes";
+  if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + " KB";
+  return (bytes/(1024*1024)).toFixed(2) + " MB";
+}
+function getExtension(name){
+  const parts = name.toLowerCase().split(".");
+  return parts.length > 1 ? parts.pop() : "";
+}
+function currentConversion(){
+  const key = conversionSelect.value;
+  return key ? CONVERSIONS[key] : null;
+}
+function setDropZoneEnabled(enabled){
+  if(enabled){
+    dropZone.classList.remove("disabled");
+    const conv = currentConversion();
+    dropZoneTitle.textContent = conv ? conv.uploadTitle : "Choose a file or drag it here";
+    dropZoneHint.textContent = conv ? conv.uploadHint : "Click to browse files from your computer or phone";
+  }else{
+    dropZone.classList.add("disabled");
+    dropZoneTitle.textContent = "Please choose a conversion first";
+    dropZoneHint.textContent = "The upload box becomes active after you pick a conversion above.";
+  }
+}
+function updateConvertButtonState(){
+  const conv = currentConversion();
+  let valid = false;
+  if(conv && selectedFiles.length > 0){
+    if(conv.type === "multi"){
+      valid = (conv.from === "img" || selectedFiles.length >= 2);
+    } else {
+      valid = true;
+    }
+  }
+  convertButton.disabled = !valid;
+}
+
+conversionSelect.addEventListener("change", () => {
+  clearStatus(); clearDownload();
+  const conv = currentConversion();
+  if(!conv){ resetFileOnly(); setDropZoneEnabled(false); updateConvertButtonState(); return; }
+  setDropZoneEnabled(true);
+  if(selectedFiles.length > 0){
+    const bad = selectedFiles.some(f => {
+      const ext = getExtension(f.name);
+      if(conv.from === "img") return !["jpg","jpeg","png"].includes(ext);
+      return ext !== conv.from;
+    });
+    if(bad){
+      showStatus("The selected file(s) do not match this conversion. Please choose matching files.", "error");
+      resetFileOnly();
+    }
+  }
+  fileInput.multiple = (conv.type === "multi");
+  updateConvertButtonState();
+});
+
+dropZone.addEventListener("click", () => {
+  if(dropZone.classList.contains("disabled")) return;
+  fileInput.click();
+});
+fileInput.addEventListener("change", () => {
+  if(fileInput.files.length){ selectFiles(Array.from(fileInput.files)); }
+});
+dropZone.addEventListener("dragover", event => {
+  if(dropZone.classList.contains("disabled")) return;
+  event.preventDefault(); dropZone.classList.add("dragover");
+});
+dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+dropZone.addEventListener("drop", event => {
+  if(dropZone.classList.contains("disabled")) return;
+  event.preventDefault(); dropZone.classList.remove("dragover");
+  if(event.dataTransfer.files.length){ selectFiles(Array.from(event.dataTransfer.files)); }
+});
+
+document.getElementById("removeFile").addEventListener("click", resetFileOnly);
+document.getElementById("resetButton").addEventListener("click", resetAll);
+
+function resetFileOnly(){
+  selectedFiles = []; fileInput.value = "";
+  fileDetails.style.display = "none"; fileLabel.style.display = "none";
+  progressArea.style.display = "none"; progressFill.style.width = "0%";
+  clearStatus(); clearDownload(); updateConvertButtonState();
+}
+function resetAll(){
+  resetFileOnly(); conversionSelect.value = ""; setDropZoneEnabled(false);
+}
+
+function selectFiles(files){
+  const conv = currentConversion();
+  if(!conv){ showStatus("Please choose a conversion first.", "error"); return; }
+
+  const validFiles = [];
+  for(const file of files){
+    const ext = getExtension(file.name);
+    const ok = conv.from === "img" ? ["jpg","jpeg","png"].includes(ext) : (ext === conv.from);
+    if(!ok){
+      showStatus(`The file ${file.name} does not match the chosen conversion.`, "error");
+      return;
+    }
+    validFiles.push(file);
+  }
+
+  if(conv.type === "multi" && conv.from === "pdf" && validFiles.length < 2){
+    showStatus("Merging requires at least 2 PDF files.", "error"); return;
+  }
+
+  selectedFiles = validFiles;
+  clearStatus(); clearDownload();
+
+  fileName.textContent = selectedFiles.map(f => f.name).join(", ");
+  const totalBytes = selectedFiles.reduce((sum, f) => sum + f.size, 0);
+  fileMeta.textContent = formatBytes(totalBytes) + " total · " + selectedFiles.length + " file(s)";
+  
+  fileDetails.style.display = "flex";
+  fileLabel.style.display = "block";
+  progressArea.style.display = "none";
+  progressFill.style.width = "0%";
+  updateConvertButtonState();
+}
+
+function updateProgress(value, message){
+  progressArea.style.display = "block";
+  progressFill.style.width = value + "%";
+  progressLabel.textContent = message;
+}
+
+async function startConversion(){
+  const conv = currentConversion();
+  if(!conv || selectedFiles.length === 0){
+    showStatus("Please select a conversion and file(s) first.", "error"); return;
+  }
+
+  convertButton.disabled = true;
+  convertButton.textContent = "Processing...";
+  clearStatus(); clearDownload();
+  updateProgress(10, "Uploading your file(s)... This may take up to 60s if asleep.");
+
+  try{
+    const form = new FormData();
+    if(conv.type === "multi"){
+      selectedFiles.forEach(f => form.append("files", f));
+    } else {
+      form.append("file", selectedFiles[0]);
+      form.append("output_format", conv.to);
+    }
+
+    let response;
+    try{
+      response = await fetch(conv.endpoint, { method: "POST", body: form });
+    }catch(e){
+      throw new Error("Could not connect to the conversion server. Check your internet.");
+    }
+
+    if(!response.ok){
+      let message = "Conversion failed.";
+      const type = response.headers.get("content-type") || "";
+      if(type.includes("application/json")){
+        try{
+          const data = await response.json();
+          if(data && typeof data.detail === "string") message = data.detail;
+          else if(data && data.detail) message = JSON.stringify(data.detail);
+        }catch(_){ }
+      }
+      if(response.status === 413) throw new Error(message);
+      if(response.status >= 500) throw new Error("Server problem. Try again in a minute. " + message);
+      throw new Error(message);
+    }
+
+    updateProgress(70, "Downloading the converted file...");
+    const blob = await response.blob();
+    if(!blob.size) throw new Error("The converted file is empty.");
+
+    downloadObjectUrl = URL.createObjectURL(blob);
+    const originalName = selectedFiles[0].name.replace(/\.[^/.]+$/, "");
+    const extension = conv.to === "jpeg" ? "jpg" : conv.to;
+
+    downloadButton.href = downloadObjectUrl;
+    downloadButton.download = (conv.type === "multi" ? "moztools-result" : originalName) + "." + extension;
+    downloadButton.style.display = "block";
+    updateProgress(100, "Conversion completed!");
+    showStatus("Your file was converted successfully. Click the green button to download.", "success");
+
+  }catch(error){
+    console.error("MozTools error:", error);
+    showStatus(error.message, "error");
+    updateProgress(0, "Conversion stopped.");
+  }finally{
+    convertButton.disabled = false;
+    convertButton.textContent = "Convert File";
+    updateConvertButtonState();
+  }
+}
+
+convertButton.addEventListener("click", startConversion);
+setDropZoneEnabled(false);
+updateConvertButtonState();
+</script>
 
 </body>
 </html>
